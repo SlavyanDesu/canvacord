@@ -1224,6 +1224,7 @@ class Canvacord {
      * Who was the imposter?
      * @param {string} username User's username
      * @param {string|Buffer} [image] User Avatar
+     * @returns {Promise<Buffer>}
      */
     static async imposter(username, image) {
         if (!username) throw new Error("username was not provided!");
@@ -1256,6 +1257,7 @@ class Canvacord {
      * Who was the imposter? but its a gif
      * @param {string} username User's username
      * @param {string|Buffer} [image] User Avatar
+     * @returns {Promise<Buffer>}
      */
     static async impostergif(username, image) {
         if (!username) throw new Error("username was not provided!");

@@ -69,7 +69,9 @@ export class Canvacord {
     public static opinion(avatar: string | Buffer, msg: string): Promise<Buffer>;
     public static gradient(colorFrom: string, colorTo: string): Buffer;
     public static write(data: Buffer, name: string): void;
-    private get assets(): (type: "FONT" | "IMAGE") => any;    
+    public static imposter(username: string, image?: string | Buffer): Promise<Buffer>;
+    public static impostergif(username: string, image?: string | Buffer): Promise<Buffer>;
+    private get assets(): (type: "FONT" | "IMAGE") => any;
 }
 
 export interface plugins {
