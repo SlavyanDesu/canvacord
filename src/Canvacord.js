@@ -1254,6 +1254,81 @@ class Canvacord {
     }
 
     /**
+     * Rummy Card
+     * @param {"A" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "J" | "Q" | "K"} value Card value
+     * @param {"spade" | "club" | "diamond" | "heart"} suit Card suit
+     * @param {"red" | "black"} color Card color
+     */
+    static async card(value, suit, color) {
+        const validCards = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+        if (!validCards.includes(value)) throw new Error("Invalid value was provided");
+        let fillCol, symb;
+
+        switch (color.toLowerCase()) {
+            case "red":
+                fillCol = "#FF0000";
+                break;
+
+            case "black":
+                fillCol = "#000000";
+                break;
+
+            default:
+                throw new Error("Invalid color was provided");
+        }
+
+        switch (suit.toLowerCase()) {
+            case "spade":
+                symb = "♠";
+                break;
+
+            case "clubs":
+            case "club":
+                symb = "♣";
+                break;
+
+            case "diamond":
+                symb = "♦";
+                break;
+
+            case "heart":
+                symb = "♥";
+                break;
+
+            default:
+                throw new Error("Invalid suit was provided");
+        }
+
+        const canvas = Canvas.createCanvas(bg.width, bg.height);
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, 300, 500);
+
+        ctx.strokeStyle = fillCol;
+        ctx.lineWidth = 5;
+        ctx.strokeRect(0, 0, 300, 500);
+
+        ctx.fillStyle = fillCol;
+        ctx.font = "180px Arial";
+        ctx.fillText(symb, canvas.width / 2.8, canvas.height / 1.7);
+
+        ctx.fillStyle = fillCol;
+        ctx.font = "bold 48px Arial";
+        ctx.fillText(`${value} ${symb}`, 20, 70);
+
+        ctx.save();
+        ctx.translate(200, 450);
+        ctx.rotate(-Math.PI);
+        ctx.font = "bold 48px Arial";
+        ctx.fillStyle = fillCol;
+        ctx.fillText(`${value} ${symb}`, -75, 24);
+        ctx.restore();
+
+        return canvas.toBuffer();
+    }
+
+    /**
      * Who was the imposter? but its a gif
      * @param {string} username User's username
      * @param {string|Buffer} [image] User Avatar
