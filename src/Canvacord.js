@@ -26,7 +26,7 @@ const Util = require("./Util");
  *  })
  */
 class Canvacord {
-    
+
     /*
     * <warn>Static class</warn>
     */
@@ -1188,7 +1188,7 @@ class Canvacord {
         ctx.font = "20px Roboto";
         ctx.fillStyle = ops.dark ? "#FFFFFF" : "#000000";
         ctx.fillText(username, 92, 50);
-        
+
         ctx.font = "16px Roboto";
         ctx.fillStyle = "#909090";
         ctx.fillText(time, ctx.measureText(username).width + 140, 50);
@@ -1216,6 +1216,20 @@ class Canvacord {
 
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 210, 700, 170, 170);
+
+        return canvas.toBuffer();
+    }
+
+    static async amongus(image) {
+        if (!image) throw new Error("image was not provided!");
+        await this.__wait();
+        const img = await Canvas.loadImage(image);
+        const bg = await Canvas.loadImage(Canvacord.assets("IMAGE").AMONGUS);
+
+        const canvas = Canvas.createCanvas(bg.width, bg.height);
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
         return canvas.toBuffer();
     }
@@ -1253,7 +1267,7 @@ class Canvacord {
 
         return canvas.toBuffer();
     }
-    
+
     /**
      * Discord Reply Clone
      * @param {object} options Options
@@ -1385,7 +1399,7 @@ class Canvacord {
         ctx.closePath();
 
         ctx.clip();
-        
+
         ctx.drawImage(img2, 165 + 20, 70 + 5 - 20, 40, 40);
         ctx.restore();
 
