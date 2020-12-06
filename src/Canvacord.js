@@ -1220,18 +1220,78 @@ class Canvacord {
         return canvas.toBuffer();
     }
 
-    static async amongus(image) {
-        if (!image) throw new Error("image was not provided!");
+    /**
+     * Who was the imposter?
+     * @param {string} username User's username
+     * @param {string|Buffer} [image] User Avatar
+     */
+    static async imposter(username, image) {
+        if (!username) throw new Error("username was not provided!");
         await this.__wait();
-        const img = await Canvas.loadImage(image);
-        const bg = await Canvas.loadImage(Canvacord.assets("IMAGE").AMONGUS);
+        const bg = await Canvas.loadImage(image ? Canvacord.assets("IMAGE").IMPOSTER : Canvacord.assets("IMAGE").IMPOSTERWITH);
 
         const canvas = Canvas.createCanvas(bg.width, bg.height);
         const ctx = canvas.getContext("2d");
 
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+        if (image) {
+            const img = await Canvas.loadImage(image);
+            ctx.save();
+            ctx.translate(709, 236);
+            ctx.rotate(Math.PI / 4);
+            ctx.translate(-709, -236);
+            ctx.drawImage(img, 680, 207, 50, 50);
+            ctx.restore();
+        }
+
+        ctx.font = "bold 16px Arial";
+        ctx.fillStyle = "#DEDEDE";
+        ctx.textAlign = "center";
+        ctx.fillText(`${username} was The Imposter`, canvas.width / 2, canvas.height / 2);
 
         return canvas.toBuffer();
+    }
+
+    /**
+     * Who was the imposter? but its a gif
+     * @param {string} username User's username
+     * @param {string|Buffer} [image] User Avatar
+     */
+    static async impostergif(username, image) {
+        if (!username) throw new Error("username was not provided!");
+        if (!image) throw new Error("image was not provided!");
+        await this.__wait();
+        const bg = await Canvas.loadImage(Canvacord.assets("IMAGE").IMPOSTER);
+        const img = await Canvas.loadImage(image);
+
+        const canvas = Canvas.createCanvas(bg.width, bg.height);
+        const ctx = canvas.getContext("2d");
+
+        ctx.font = "bold 16px Arial";
+        ctx.fillStyle = "#DEDEDE";
+        ctx.shadowColor = "#000";
+        ctx.shadowBlur = 5;
+        ctx.textAlign = "center";
+
+        const encoder = new GIFEncoder(canvas.width, canvas.height);
+        encoder.start();
+        encoder.setDelay(100);
+        encoder.setRepeat(0);
+        var ang = 0;
+        for (let i = 0; i < 15; i++) {
+            ctx.save();
+            ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+            ctx.translate(i * 70, canvas.height / 2.3);
+            ctx.rotate(Math.PI / 180 * (ang += 10));
+            ctx.translate(-(i * 70), -(canvas.height / 2.3));
+            ctx.drawImage(img, i * 70, canvas.height / 2.3, 50, 50);
+            ctx.restore();
+            ctx.fillText(`${username} was The Imposter`, canvas.width / 2, canvas.height / 2);
+            encoder.addFrame(ctx);
+        }
+
+        encoder.finish();
+        return encoder.out.getData();
     }
 
     /**
