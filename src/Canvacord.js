@@ -13,6 +13,7 @@ const Darkness = require("../libs/Darkness");
 const circle = require("../plugins/circle");
 const round = require("../plugins/round");
 const Util = require("./Util");
+const GIFEncoder = require("gifencoder");
 
 /**
  * **⚠ You may not instantiate Canvacord class! ⚠**
@@ -1331,10 +1332,10 @@ class Canvacord {
     /**
      * Who was the imposter? but its a gif
      * @param {string} username User's username
-     * @param {string|Buffer} [image] User Avatar
+     * @param {string|Buffer} image User Avatar
      * @returns {Promise<Buffer>}
      */
-    static async impostergif(username, image) {
+    static async eject(username, image) {
         if (!username) throw new Error("username was not provided!");
         if (!image) throw new Error("image was not provided!");
         await this.__wait();
