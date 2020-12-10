@@ -13,6 +13,7 @@ const Darkness = require("../libs/Darkness");
 const circle = require("../plugins/circle");
 const round = require("../plugins/round");
 const Util = require("./Util");
+const GIFEncoder = require("gifencoder");
 
 /**
  * **⚠ You may not instantiate Canvacord class! ⚠**
@@ -1331,7 +1332,7 @@ class Canvacord {
     /**
      * Red sus? Alright bro ejected
      * @param {string} username User's username
-     * @param {string|Buffer} [image] User Avatar
+     * @param {string|Buffer} image User Avatar
      * @returns {Promise<Buffer>}
      */
     static async eject(username, image) {
