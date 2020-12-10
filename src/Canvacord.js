@@ -1329,12 +1329,12 @@ class Canvacord {
     }
 
     /**
-     * Who was the imposter? but its a gif
+     * Red sus? Alright bro ejected
      * @param {string} username User's username
      * @param {string|Buffer} [image] User Avatar
      * @returns {Promise<Buffer>}
      */
-    static async impostergif(username, image) {
+    static async eject(username, image) {
         if (!username) throw new Error("username was not provided!");
         if (!image) throw new Error("image was not provided!");
         await this.__wait();
